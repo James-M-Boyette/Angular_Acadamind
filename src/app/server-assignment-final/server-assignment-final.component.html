@@ -1,0 +1,13 @@
+<label for="detailedInfo"></label>
+<button id="detailedInfo" class='button btn-primary'(click)="onDisplaySecret($event)" >Display Details</button>
+<br>
+<br>
+<p *ngIf="showSecret; else placeHolder">Secret Password: 'tuna s@l@d'</p>
+<ng-template #placeHolder>
+    <p style="color:transparent">_</p>
+</ng-template>
+<br>
+<p *ngFor="let eventTimestamp of clickEvents; let i = index" [ngClass]="{'blue': i >= 4}">{{eventTimestamp}}</p>
+<!-- <p *ngFor="let eventTimestamp of clickEvents" [ngStyle]="{backgroundColor: eventTimestamp >= 4 ? 'dodgerBlue' : 'transparent'}">{{eventTimestamp}}</p> -->
+<!-- Note: this second version was what was suggested in the tutorial. There is a tricky work-around that's been implemented, here: the instructor pushed a vanilla *number* to the clickEvents array (instead of any real attribute of the event) - the array becomes `[1,2,3,4,5 etc]` ... this allows him to simply evaluate the element of the for loop ... I've kept ChatGPT's version bc it actually gives access to the index (in much the same way `let el *in* elList` would)-->
+<!-- *UPDATE* ... he uses ChatGPT's forumulation in the final video <eye-roll> -->

@@ -6,11 +6,19 @@ import { FormsModule } from "@angular/forms"; // Imported here
 
 import { AppComponent } from './app.component';
 import { ServerComponent } from './server/server.component';
+import { AlertWarningComponent } from './alerts/alert-warning/alert-warning.component';
+import { AlertSuccessComponent } from './alerts/alert-success/alert-success.component';
+import { AlertAssignmentComponent } from './alerts/alert-assignment/alert-assignment.component';
+import { ServerAssignmentFinalComponent } from './server-assignment-final/server-assignment-final.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ServerComponent
+    ServerComponent,
+    AlertWarningComponent,
+    AlertSuccessComponent,
+    AlertAssignmentComponent,
+    ServerAssignmentFinalComponent,
   ],
   imports: [
     BrowserModule,
@@ -18,6 +26,6 @@ import { ServerComponent } from './server/server.component';
     // HttpClient,
   ],
   providers: [],
-  bootstrap: [AppComponent, ServerComponent] // An array of all components Angular should be aware of at the time of compiling
+  bootstrap: [AppComponent, ServerComponent, AlertWarningComponent, AlertSuccessComponent, ] // An array of all components Angular should be aware of at the time of compiling
 })
 export class AppModule { }

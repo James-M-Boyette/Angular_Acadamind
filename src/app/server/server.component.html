@@ -1,1 +1,68 @@
-<p>The server component works!</p>
+<label for="serverControl">Server Controller</label>
+<br>
+<br>
+<p>This button uses an instanced function "getServerStatus()" to change the data contained in `serverStatus`:</p>
+<button id="serverControl" (click)="getServerStatus()" class="button btn-primary">{{serverStatus}}</button>
+<br>
+<br>
+<p>This button uses a click event listener to run `getServerStatus()`:</p>
+<button id="serverControl" (click)="onClick()" class="button btn-primary">{{serverStatus}}</button>
+<p>Note: the syntax for Angular event listening is `(your_event)=""` ... so while the code for this button *could* be `onclick="myFunction()"` in vanilla JS, the Angularized-version is (click)="myFunction"</p>
+<br>
+<br>
+<p>This button uses *(CSS) property binding* to change the button's "innerText":</p>
+<button id="serverControl" (click)="onClick()" class="button btn-primary" [innerText]="serverStatus"></button>
+<br>
+<br>
+
+<p>Server # {{serverId}} is {{!serverStatus ? 'Offline ❌' : 'Good-to-go ✔️'}}</p>
+
+<br>
+
+<p>This button is a second example of property binding: it has the a "disabled" property by default. However, we have enclosed this property in "[]" brackets, which tells Angular that the property should be bound to some other data ...</p>
+<p>In our `server.component.ts`, we've set `dontAllowNewServer` to be true, initially. We've also tied its value to our button's "disabled" property.</p>
+<p>Therefor, so long as `[disabled]="dontAllowNewServer"` is 'true', the button will remain disabled. Eventually, our `enableNewServerAfterDelay()` function will make this expression 'false', and the "disabled" property will be removed from the button.</p>
+<button id="serverCreate" (click)="onCreateServer()" class="button btn-primary" [disabled]="dontAllowNewServer" >Not allowed to add new server: {{dontAllowNewServer}}</button>
+
+<label for="serverName"></label>
+<input type="text" class="form-control" (input)="onUpdateServerName($event)">
+<!-- Using the dollar sign "$" gives us access to the user event data - in this case any keystroke input to the input field. Event data will include what key was pressed, where it was pressed, etc., etc.  -->
+<input type="text" class="form-control" [(ngModel)]="serverName1">
+<!-- In this second input field, we're using *two-way* databinding. The value of serverName1 is being displayed (currently an empty string) in this second input field (but not the first). If we input anything/make changes to `serverName1` in the first input field, we'll see those changes reflected in the second field ... but the reverse wont be true -->
+<p *ngIf="dontAllowNewServer">In addition, this message will be visible as long as `dontAllowNewServer` continues to be 'true' (for 5 seconds).</p>
+<p *ngIf="!dontAllowNewServer">Once `dontAllowNewServer` gets set to 'false', the first message is no-longer needed, and it will disappear/be swapped for this second one.</p>
+
+<!-- Ver. 1: Basic ngIf -->
+<!-- <p *ngIf="!serverCreationStatus">No server has been created yet ...</p>
+<p *ngIf="serverCreationStatus">{{serverCreationStatus}}</p> -->
+<!-- In Version #1, we're using `*ngIf`; the "*" implies Angular's <ng-template> -->
+
+<!-- Ver. 2: ngIf + <ng-template> -->
+<!-- <p *ngIf="serverCreationStatus; else noServer">{{serverCreationStatus}}</p>
+<ng-template #noServer>
+    <p>No server has been created yet ...</p>
+</ng-template> -->
+<!-- In Version #2, we're using <ng-template> explicitly, along with a "local refrence" (a marker) "#" -->
+<!-- It's not clear to me (yet) what the benefits of one vs the other are ... they seem equally verbose, though v2 does explicitly highlight the interconnected relationship of both elements -->
+
+<!-- Ver 3: ngStyle -->
+<!-- <div [ngStyle]="{backgroundColor:getServerStatusColor()}">
+    <p *ngIf="serverCreationStatus; else noServer">{{serverCreationStatus}}</p>
+    <ng-template #noServer>
+        <p>No server has been created yet ...</p>
+    </ng-template>
+</div> -->
+<!-- In Version #3, we've added an attribute directive. The square brackets "[]" tell Angular that we're databinding the property 'ngStyle' (a directive) to something, so it's a fusion of directives & databinding. -->
+
+<!-- Ver 4: ngClass -->
+<div 
+[ngStyle]="{backgroundColor:getServerStatusColor()}"
+[ngClass]="{online: serverCreationStatus != ''}">
+    <p *ngIf="serverCreationStatus; else noServer">{{serverCreationStatus}}</p>
+    <ng-template #noServer>
+        <p>No server has been created yet ...</p>
+    </ng-template>
+</div>
+<!-- In version #4, we've added ngClass, which takes in a JS Object. The key(s) of this object will be the classes that are applied *if* the values resolve to 'true' -->
+
+<p *ngFor="let server of availableServers">{{server}}</p>
